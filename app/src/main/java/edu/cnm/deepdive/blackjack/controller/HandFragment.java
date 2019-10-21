@@ -41,7 +41,6 @@ public abstract class HandFragment extends Fragment {
     cards.setLayoutManager(
         new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)
     );
-    cards.setLayoutManager(new LinearLayoutManager(getContext()));
     bustedValue = view.findViewById(R.id.busted_value);
     hardValue = view.findViewById(R.id.hard_value);
     hardSoftDivider = view.findViewById(R.id.hard_soft_divider);
