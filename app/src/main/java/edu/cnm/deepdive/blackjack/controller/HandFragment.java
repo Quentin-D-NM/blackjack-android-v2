@@ -12,14 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.blackjack.R;
 import edu.cnm.deepdive.blackjack.model.entity.Card;
 import edu.cnm.deepdive.blackjack.model.pojo.HandWithCards;
+import edu.cnm.deepdive.blackjack.view.CardRecyclerAdapter;
 import edu.cnm.deepdive.blackjack.viewmodel.MainViewModel;
 
 public abstract class HandFragment extends Fragment {
 
-  private ArrayAdapter<Card> adapter;
   private MainViewModel viewModel;
   private TextView bustedValue;
   private TextView hardValue;
@@ -27,14 +29,15 @@ public abstract class HandFragment extends Fragment {
   private TextView softValue;
   private TextView blackjackValue;
   private HandWithCards hand;
+  private RecyclerView cards;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(getLayout(), container, false);
-    ListView cards = view.findViewById(R.id.cards);
-    adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1);
-    cards.setAdapter(adapter);
+    cards = view.findViewById(R.id.cards);
+    //TODO Add support for overlapping
+    cards.setLayoutManager(new LinearLayoutManager(getContext()));
     bustedValue = view.findViewById(R.id.busted_value);
     hardValue = view.findViewById(R.id.hard_value);
     hardSoftDivider = view.findViewById(R.id.hard_soft_divider);
@@ -49,8 +52,8 @@ public abstract class HandFragment extends Fragment {
     viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
     handToObserve(viewModel).observe(this, (hand) -> {
       this.hand = hand;
-      adapter.clear();
-      adapter.addAll(hand.getCards());
+      CardRecyclerAdapter adapter = new CardRecyclerAdapter(getContext(), hand.getCards());
+      cards.setAdapter(adapter);
       updateValues(hand);
     });
   }
