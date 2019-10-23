@@ -5,16 +5,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 @Entity(
     foreignKeys = {
-        @ForeignKey(
-            entity = Shoe.class,
-            childColumns = "shoe_id",
-            parentColumns = "shoe_id",
-            onDelete = ForeignKey.CASCADE
-        ),
         @ForeignKey(
             entity = Hand.class,
             childColumns = "hand_id",
@@ -34,16 +29,11 @@ public class Card {
   private Date created = new Date();
 
   @NonNull
-  @ColumnInfo(index = true)
-  private Date updated  = new Date();
-
-  @ColumnInfo(name = "shoe_id", index = true)
-  private Long shoeId;
-
   @ColumnInfo(name = "hand_id", index = true)
-  private Long handId;
+  private long handId;
 
   @NonNull
+  @SerializedName("value")
   private Rank rank;
 
   @NonNull
@@ -66,28 +56,11 @@ public class Card {
     this.created = created;
   }
 
-  @NonNull
-  public Date getUpdated() {
-    return updated;
-  }
-
-  public void setUpdated(@NonNull Date updated) {
-    this.updated = updated;
-  }
-
-  public Long getShoeId() {
-    return shoeId;
-  }
-
-  public void setShoeId(Long shoeId) {
-    this.shoeId = shoeId;
-  }
-
-  public Long getHandId() {
+  public long getHandId() {
     return handId;
   }
 
-  public void setHandId(Long handId) {
+  public void setHandId(long handId) {
     this.handId = handId;
   }
 
@@ -121,14 +94,23 @@ public class Card {
   public enum Rank {
 
     ACE,
+    @SerializedName("2")
     TWO,
+    @SerializedName("3")
     THREE,
+    @SerializedName("4")
     FOUR,
+    @SerializedName("5")
     FIVE,
+    @SerializedName("6")
     SIX,
+    @SerializedName("7")
     SEVEN,
+    @SerializedName("8")
     EIGHT,
+    @SerializedName("9")
     NINE,
+    @SerializedName("10")
     TEN,
     JACK,
     QUEEN,

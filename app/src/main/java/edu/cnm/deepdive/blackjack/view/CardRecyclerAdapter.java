@@ -34,8 +34,6 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardHolder> {
     return new CardHolder(view);
   }
 
-
-
   @Override
   public void onBindViewHolder(@NonNull CardHolder holder, int position) {
     holder.bind(cards.get(position));
@@ -50,18 +48,15 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardHolder> {
 
     private final ImageView imageView;
 
-
     public CardHolder(@NonNull View itemView) {
       super(itemView);
       imageView = (ImageView) itemView;
     }
 
     private void bind(Card card) {
-      DeckOfCardsService service = DeckOfCardsService.getInstance();
       imageView.setContentDescription(context.getString(R.string.card_content_description, card.getRank(), card.getSuit()));
-      Picasso.get().load(service.getImageUrl(context, card).toString()).into(imageView);
+      Picasso.get().load(DeckOfCardsService.getImageUrl(card).toString()).into(imageView);
     }
-
   }
 
   public static class OverlapDecoration extends RecyclerView.ItemDecoration {
@@ -85,7 +80,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardHolder> {
       if (itemPosition == 0) {
         super.getItemOffsets(outRect, view, parent, state);
       } else {
-        outRect.set(horizontalOffset * itemPosition, verticalOffset, 0, 0);
+        outRect.set(horizontalOffset, verticalOffset, 0, 0);
       }
     }
   }
